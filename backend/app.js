@@ -42,7 +42,7 @@ function saveNote(req, res) {
 
 mongoose
     .connect(
-        `mongodb+srv://aryuki:${process.env.MONGOP}@cluster0.mln49.mongodb.net/notes?retryWrites=true&w=majority`,
+        `mongodb+srv://aryuki:${process.env.S3_MONGOP}@cluster0.mln49.mongodb.net/notes?retryWrites=true&w=majority`,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,

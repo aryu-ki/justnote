@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@700&display=swap');
+
+:root {
+    --height: 200px;
+}
+
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    font-family: Arvo;
+    color: hsl(0, 50%, 90%);
+    min-height: 100vh;
+    background-color: hsl(0, 0%, 15%);
+}
+
+.editor-textbox textarea::-webkit-scrollbar {
+    opacity: 100%;
+}
+
+.editor-textbox textarea::-webkit-scrollbar-thumb {
+    background-color: hsl(230, 20%, 50%);
+    border-radius: 10px;
+}
+
+.editor-save button {
+    font-family: inherit;
+    border-radius: 5px;
+    padding: 0.5em 1.5em 0.5em 1.5em;
+    border: 4px solid hsl(0, 10%, 50%);
+    margin: 1em 0 1em 0;
+    color: hsl(0, 0%, 50%);
+    font-size: 1.15em;
+    background-color: hsl(0, 0%, 15%);
+}
+
+.editor-save button:hover {
+    border-color: hsl(0, 50%, 90%);
+    background: linear-gradient(30deg, hsl(0, 0%, 15%), white);
+    background-size: 200% 200%;
+    color: hsl(0, 50%, 90%);
+    animation: Shine 2s ease-out infinite;
+}
+.editor-save button:active {
+    color: hsl(0, 0%, 15%);
+    outline: hsl(0, 50%, 90%) solid 2px;
+    border: 2px solid hsl(0, 0%, 15%);
+    background-color: hsl(0, 50%, 90%);
+}
+
+.editor-textbox textarea {
+    overflow-y: auto;
+
+    /* font-family: inherit; */
+    line-height: 1.5;
+    padding: 2em;
+    color: hsl(0, 50%, 90%);
+    border-radius: 15px;
+    border-style: none;
+    background-color: hsl(229, 22%, 10%);
+    min-height: 60vh;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.aside-left {
+    grid-column: 1/3;
+    min-height: 100vh;
+}
+
+.aside-messagebox li {
+    padding-left: 1em;
+    list-style-type: none;
+    color: hsl(0, 50%, 90%);
+    margin: 1em auto 1em auto;
+    animation: fadeout 3.25s linear forwards;
+}
+
+.aside-messagebox ul {
+    width: 100%;
+}
+
+.aside-right {
+    grid-column: 11/13;
+}
+
+.timer {
+    margin-top: 0.5em;
+    display: block;
+    text-align: center;
+}
+
+.aside-messagebox h2 {
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.container {
+    border-left: 2px solid hsl(180, 100%, 50%);
+    border-right: 2px solid aqua;
+    min-height: 100vh;
+    background-color: hsl(232, 30%, 15%);
+    grid-column: 3/11;
+    text-align: center;
+}
+
+header h1 {
+    margin: 1em 0 1em 0;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.auth-form {
+    height: 200px;
+}
+
+@keyframes fadeout {
+    70% {
+        opacity: 100%;
+    }
+    100% {
+        opacity: 0%;
+    }
+}
+
+.rollout {
+    animation: rollout 1s ease-out both;
+}
+
+.rollin {
+    animation: rollin 1s ease-out both;
+}
+
+.hidden {
+    display: none;
+}
+
+form {
+    overflow: hidden;
+}
+
+@keyframes rollout {
+    0% {
+        height: 0%;
+    }
+    100% {
+        height: 100%;
+    }
+}
+@keyframes rollin {
+    100% {
+        height: 0%;
+    }
+    0% {
+        height: 100%;
+    }
+}
+
+@keyframes Shine {
+    10% {
+        background-position: 10% 0%;
+    }
+    50% {
+        background-position: 150% 0%;
+    }
+    100% {
+        background-position: 10% 0%;
+    }
+}
+
+@keyframes expand {
+    0% {
+        width: initial;
+    }
+    100% {
+        width: 100%;
+    }
+}

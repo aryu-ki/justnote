@@ -41,10 +41,13 @@ function saveNote(req, res) {
 }
 
 mongoose
-    .connect('mongodb://localhost:27017/notes', {
-        useNewUrlParser: false,
-        useUnifiedTopology: false,
-    })
+    .connect(
+        `mongodb+srv://aryuki:${process.env.MONGOP}@cluster0.mln49.mongodb.net/notes?retryWrites=true&w=majority`,
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    )
     .catch(e => {
         console.log(e)
     })
@@ -57,6 +60,9 @@ app.engine(
         layoutsDir: './views/layouts',
     })
 )
+process.on('beforeExit', async () => {
+    await mongoose.disconnect()
+})
 hbs.registerPartials(__dirname + '/views/partials')
 hbs.registerPartials(__dirname + '/views')
 app.use(express.static('./public'))

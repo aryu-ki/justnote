@@ -2,7 +2,6 @@
     "version": "1.0.0",
     "author": "Yuriy Hesik",
     "scripts": {
-        "build": "npx babel ./backend/index.jsx --out-file ./public/scripts/index.js && npx babel ./backend/components --watch --out-dir public/scripts/components",
         "start": "nodemon backend/app.js"
     },
     "engines": {

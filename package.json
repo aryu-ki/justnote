@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "author": "Yuriy Hesik",
     "scripts": {
-        "start": "nodemon backend/app.js"
+        "start": "node backend/app.js"
     },
     "engines": {
         "node": "=14.17.0",

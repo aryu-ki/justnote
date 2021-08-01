@@ -87,9 +87,11 @@ async function shutdown(code) {
 }
 
 function initializeFoldersHbs(paths) {
-    hbs.registerPartials(__dirname + (paths.partialsDir || 'views/partials'))
-    hbs.registerPartials(__dirname + (paths.viewsDir || 'views'))
-    app.use(express.static(paths.staticDir || 'public'))
+    hbs.registerPartials(
+        __dirname + ((paths && paths.partialsDir) || 'views/partials')
+    )
+    hbs.registerPartials(__dirname + ((paths && paths.viewsDir) || 'views'))
+    app.use(express.static((paths && paths.staticDir) || 'public'))
 }
 
 startServer()

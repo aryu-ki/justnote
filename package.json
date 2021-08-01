@@ -3,7 +3,8 @@
     "author": "Yuriy Hesik",
     "scripts": {
         "compile": "npx babel ./backend/dev/index.jsx --out-file ./public/scripts/index.js && npx babel ./backend/dev/components -w --out-dir ./public/scripts/components",
-        "start": "node backend/app.js"
+        "start": "node backend/app.js",
+        "debug": "nodemon backend/app.js"
     },
     "engines": {
         "node": "=14.17.0",

@@ -22,7 +22,7 @@ function saveNote(req, res) {
     )
         .then(() => {
             console.log('Updated and saved note')
-            res.send('OK')
+            res.send({ message: 'OK' })
         })
         .catch(e => {
             console.log(e)

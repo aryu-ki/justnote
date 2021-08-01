@@ -3,7 +3,7 @@ export default class Form extends React.Component {
     return /*#__PURE__*/React.createElement("div", {
       className: this.props.className
     }, /*#__PURE__*/React.createElement("form", {
-      className: this.props.formClass,
+      className: this.props.formClass + ' cnw',
       action: "/",
       method: "POST"
     }, this.props.elems, /*#__PURE__*/React.createElement("input", {

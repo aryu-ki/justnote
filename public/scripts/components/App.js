@@ -77,6 +77,7 @@ export default class App extends React.Component {
     })), /*#__PURE__*/React.createElement("div", {
       className: "aside-right"
     }, /*#__PURE__*/React.createElement(Timer, null), /*#__PURE__*/React.createElement(LoginFrame, {
+      buttonTitle: "?",
       className: "auth"
     })));
   }

@@ -14,27 +14,36 @@ export default class Editor extends React.Component {
     this.autoSaver = setInterval(() => {
       this.saveNote(true);
     }, 1000 * 60 * 5);
-    const response = await fetch('/start_session');
-    const json = await response.json();
+    const response = await this.fetchAndParseJSON('/start_session');
     this.setState({
-      code: json.code
+      code: response.code
     });
     console.log(json.code);
   }
 
+  async fetchAndParseJSON(url, params) {
+    let response = await fetch(url, params);
+    return response.json();
+  }
+
+  generatePostParams(body) {
+    return {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(body)
+    };
+  }
+
   async saveNote(auto = false) {
     try {
-      let response = await fetch('/save_note', {
-        method: 'POST',
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          note: this.state.note,
-          code: this.state.code
-        })
+      const fetchParams = this.generatePostParams({
+        note: this.state.note,
+        code: this.state.code
       });
-      response = await response.json();
+      const response = await this.fetchAndParseJSON('/save_note', fetchParams);
+      console.log(response);
 
       if (auto) {
         this.props.showMessage('Autosaving..');
@@ -42,7 +51,7 @@ export default class Editor extends React.Component {
         this.props.showMessage('Saved successfully!');
       }
     } catch (error) {
-      if (!auto) alert(`Couldn't reach the server`);
+      if (!auto) this.props.showMessage('Connection error..');
       console.log(error);
     }
   }

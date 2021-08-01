@@ -14,16 +14,18 @@ export default class LoginFrame extends React.Component {
       return /*#__PURE__*/React.createElement("input", {
         type: val.type,
         name: val.name,
+        placeholder: val.placeholder,
         className: this.props.className + '-' + val.name,
         required: true
       });
     });
   }
 
-  createInput(type, name) {
+  createInput(type, name, placeholder) {
     return {
       type: type,
-      name: name
+      name: name,
+      placeholder: placeholder
     };
   }
 
@@ -43,8 +45,8 @@ export default class LoginFrame extends React.Component {
 
   render() {
     let elems = [];
-    const usernameInput = this.createInput('text', 'username');
-    const passwordInput = this.createInput('password', 'password');
+    const usernameInput = this.createInput('text', 'username', 'Username');
+    const passwordInput = this.createInput('password', 'password', 'Password');
     elems.push(usernameInput, passwordInput);
     elems = this.generateFormElements(elems);
     return /*#__PURE__*/React.createElement("div", {

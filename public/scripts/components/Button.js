@@ -6,7 +6,9 @@ export default class Button extends React.Component {
       onClick: () => {
         this.props.onClick();
       }
-    }, this.props.value));
+    }, /*#__PURE__*/React.createElement("span", {
+      className: this.props.className + '-span'
+    }, this.props.value)));
   }
 
 }

@@ -6,7 +6,7 @@ const expressHbs = require('express-handlebars')
 const mongoose = require('mongoose')
 
 function startServer() {
-    connectMongoose('aryuki', process.env.S3_MONGOP)
+    connectMongoose('aryuki', process.env.S3_MOGNOP)
     const middleware = [express.json(), bodyParser]
     setMiddleware(middleware)
     setEngine()
@@ -37,8 +37,17 @@ function connectMongoose(
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
+        .then(() => {
+            console.log(
+                'Successfully connected to the database from the first try!'
+            )
+        })
         .catch(e => {
-            tryRecconect(5, username, password, uri)
+            let attempts = 5
+            console.log(
+                `Error occured, trying to reconnect (${attempts} attempts). \nError log: ${e}`
+            )
+            tryRecconect(attempts, username, password, uri.slice())
         })
 }
 
@@ -70,7 +79,7 @@ async function tryRecconect(limit, uri) {
             })
             break
         } catch (error) {
-            console.log(e.name)
+            console.log(error.name)
             attempts++
         }
     }

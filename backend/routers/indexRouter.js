@@ -43,4 +43,4 @@ indexRouter.get('/notes', displayNotes)
 indexRouter.post('/save_note', saveNote)
 indexRouter.use((req, res, next) => next())
 
-export default indexRouter
+module.exports = indexRouter

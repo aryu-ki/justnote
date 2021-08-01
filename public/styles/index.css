@@ -94,6 +94,7 @@ body {
 
 .aside-right {
     grid-column: 11/13;
+    padding: 1em;
 }
 
 .timer {
@@ -116,14 +117,32 @@ body {
     text-align: center;
 }
 
+h1,
+.timer {
+    text-shadow: 2px 2px darkred;
+}
+
 header h1 {
     margin: 1em 0 1em 0;
     text-transform: capitalize;
     font-weight: bold;
 }
 
+.cnw {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
+
 .auth-form {
-    height: 200px;
+    height: 150px;
+    width: 100%;
+}
+
+.auth-form input {
+    min-width: none;
 }
 
 @keyframes fadeout {
@@ -136,35 +155,108 @@ header h1 {
 }
 
 .rollout {
-    animation: rollout 1s ease-out both;
+    animation: rollout 0.5s ease-out both;
 }
 
 .rollin {
-    animation: rollin 1s ease-out both;
+    animation: rollin 0.5s ease-out both;
 }
 
-.hidden {
+.auth {
+    margin-top: 1em;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1em;
+}
+
+.auth-button {
+    width: 100%;
+}
+
+.auth-button button {
+    border: 3px solid darkslategrey;
+    border-radius: 5px;
+    background-color: hsl(258, 9%, 70%);
+    color: hsl(232, 30%, 15%);
+    display: block;
+    margin: 0 auto;
+    width: 2em;
+    height: 2em;
+    transform: rotate(45deg);
+}
+
+.auth-button:hover {
+    animation: counterclockwise45 ease-out 0.4s forwards;
+}
+
+.auth-button:hover .auth-button-span {
+    animation: clockwise45 ease-out 0.4s forwards;
+}
+
+.auth-button:hover button {
+    animation: expand ease-out 0.3s forwards;
+}
+
+.auth-button-span {
+    font-weight: bold;
+    display: block;
+    transform: rotate(-45deg);
+}
+
+.auth-from .hidden {
     display: none;
 }
 
 form {
+    box-sizing: border-box;
+    background-color: hsl(232, 30%, 15%);
+    box-shadow: 0px 0px 0px 3px hsl(180, 46%, 58%),
+        3px 3px 0 3px hsl(180, 37%, 35%);
+    border-radius: 5px;
     overflow: hidden;
+    padding: 0.5em;
+}
+
+form input:not([type='submit']) {
+    padding: 0.5em;
+    min-width: none;
+    background-color: hsl(229, 22%, 10%);
+    border: 10px;
+    color: hsl(0, 50%, 90%);
+    border: 1px solid hsl(0, 50%, 90%);
+    width: 100%;
+}
+
+form input[type='submit'] {
+    font-family: inherit;
+    border-radius: 5px;
+    padding: 0.5em 0 0.5em 0;
+    width: 10ch;
+    border: 4px solid hsl(0, 10%, 50%);
+    color: hsl(0, 0%, 50%);
+    background-color: hsl(0, 0%, 15%);
 }
 
 @keyframes rollout {
     0% {
-        height: 0%;
+        filter: blur(0.2em);
+        opacity: 0%;
     }
     100% {
-        height: 100%;
+        opacity: 100%;
+        filter: blur(0em);
     }
 }
 @keyframes rollin {
     100% {
-        height: 0%;
+        filter: blur(0.2em);
+        opacity: 0%;
     }
     0% {
-        height: 100%;
+        opacity: 100%;
+        filter: blur(0em);
     }
 }
 
@@ -173,17 +265,26 @@ form {
         background-position: 10% 0%;
     }
     50% {
-        background-position: 150% 0%;
+        background-position: 100% 0%;
     }
     100% {
         background-position: 10% 0%;
     }
 }
 
-@keyframes expand {
-    0% {
-        width: initial;
+@keyframes clockwise45 {
+    100% {
+        transform: rotate(0deg);
     }
+}
+
+@keyframes counterclockwise45 {
+    100% {
+        transform: rotate(-45deg);
+    }
+}
+
+@keyframes expand {
     100% {
         width: 100%;
     }

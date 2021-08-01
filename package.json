@@ -2,6 +2,7 @@
     "version": "1.0.0",
     "author": "Yuriy Hesik",
     "scripts": {
+        "compile": "npx babel ./backend/dev/index.jsx --out-file ./public/scripts/index.js && npx babel ./backend/dev/components -w --out-dir ./public/scripts/components",
         "start": "node backend/app.js"
     },
     "engines": {

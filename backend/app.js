@@ -4,72 +4,93 @@ const bodyParser = require('body-parser').urlencoded({ extended: false })
 const hbs = require('hbs')
 const expressHbs = require('express-handlebars')
 const mongoose = require('mongoose')
-const Note = require('../models/Note')
 
-function renderLanding(req, res) {
-    res.render('landing')
+function startServer() 
+{
+    connectMongoose('aryuki', process.env.S3_MONGOP)
+    const middleware = [express.json(), bodyParser]
+    setMiddleware(middleware)
+    setEngine()
+    if(hbs) initializeFoldersHbs()
+
+    process.on('beforeExit', shutdown)
+    const routers = {
+        '/': 'indexRouter'
+    }
+    setRoutes(routers)
+
+    app.listen(process.env.PORT || 3000)
 }
 
-function displayNotes(req, res) {
-    Note.find({}).then(docs => res.json(docs))
+function setRoutes(routers)
+{
+    for (let [path, router] of Object.entries(routers))
+    {
+        app.use(path, require('./routers/' + router))
+    }
 }
 
-function startSession(req, res) {
-    console.log('Started session')
-    const note = new Note({
-        date: new Date(),
-        note: '',
-    })
-    note.save()
-    res.json({ code: note._id })
-}
-
-function saveNote(req, res) {
-    console.log(req.body.note + ' ' + req.body.code)
-    Note.findOneAndUpdate(
-        { _id: req.body.code },
-        { date: new Date(), note: req.body.note }
-    )
-        .then(() => {
-            console.log('Updated and saved note')
-            res.status(200).json({ answer: 'lool' })
-        })
-        .catch(() => {
-            console.log('Mongoose privet')
-            res.status(500).json({ answer: 'XD' })
-        })
-}
-
-mongoose
+function connectMongoose(username, password, uri=`mongodb+srv://${username}:${password}@cluster0.mln49.mongodb.net/notes?retryWrites=true&w=majority`)
+{
+    mongoose
     .connect(
-        `mongodb+srv://aryuki:${process.env.S3_MONGOP}@cluster0.mln49.mongodb.net/notes?retryWrites=true&w=majority`,
+        uri,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         }
     )
     .catch(e => {
-        console.log(e)
+        tryRecconect(5, username,password,uri)
     })
+}
 
-app.set('view engine', 'hbs')
-app.engine(
-    'handlebars',
-    expressHbs({
-        extname: 'hbs',
-        layoutsDir: './views/layouts',
-    })
-)
-process.on('beforeExit', async () => {
+function setMiddleware(middleware)
+{
+    for (let ware of middleware) {
+        app.use(ware)
+    }
+}
+
+function setEngine(ext = 'hbs', engineCallback = expressHbs({extname: 'hbs', layoutsDir: './views/layouts'}), engine = 'handlebars')
+{
+    app.set('view engine', ext)
+    app.engine(engine, engineCallback)
+}
+
+async function tryRecconect(limit, uri) {
+    let attempts = 0
+    while (attempts<limit) {
+        mongoose.connect(
+            uri, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            }
+        )
+        .then(() => {
+            break
+        })
+        .catch(e => {
+            console.log(e.name)
+            attempts++
+        })
+    }
+    if (attempts>=limit) {
+        console.log(`Couldn't connect to database after several attempts.`)
+        shutdown()
+    } else {
+        console.log(`Managed to establish connection to database.`)
+    }
+}
+
+async function shutdown(code) {
     await mongoose.disconnect()
-})
-hbs.registerPartials(__dirname + '/views/partials')
-hbs.registerPartials(__dirname + '/views')
-app.use(express.static('./public'))
-app.use(bodyParser)
-app.use(express.json())
-app.get('/', renderLanding)
-app.post('/save_note', saveNote)
-app.get('/start_session', startSession)
-app.get('/notes', displayNotes)
-app.listen(process.env.PORT)
+}
+
+function initializeFoldersHbs(paths){
+    hbs.registerPartials(__dirname + (paths.partialsDir || 'views/partials'))
+    hbs.registerPartials(__dirname + (paths.viewsDir || 'views'))
+    app.use(express.static(paths.staticDir || 'public'))
+}
+
+startServer()
